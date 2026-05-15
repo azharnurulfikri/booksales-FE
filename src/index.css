@@ -1,3 +1,7 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -20,25 +24,27 @@ body {
   line-height: 1.5;
   /* 5. Improve text rendering */
   -webkit-font-smoothing: antialiased;
+  /* 6. Tambahan: Pastiin background default putih biar gak nyangkut warna gelap */
+  background-color: #fdfdfd;
 }
 
-/* 6. Improve media defaults */
+/* 7. Improve media defaults */
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 }
 
-/* 7. Inherit fonts for form controls */
+/* 8. Inherit fonts for form controls */
 input, button, textarea, select {
   font: inherit;
 }
 
-/* 8. Avoid text overflows */
+/* 9. Avoid text overflows */
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
-/* 9. Improve line wrapping */
+/* 10. Improve line wrapping */
 p {
   text-wrap: pretty;
 }
@@ -46,9 +52,7 @@ h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
 
-/*
-  10. Create a root stacking context
-*/
+/* 11. Create a root stacking context */
 #root, #__next {
   isolation: isolate;
 }
