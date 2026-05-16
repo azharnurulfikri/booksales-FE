@@ -11,7 +11,7 @@ import AdminLayout from "./layouts/admin";
 // ==========================================
 import Home from "./pages/index";
 import Login from "./pages/auth/login";
-import Register from "./pages/auth/register"; // Pastikan ini mengarah ke file register yang baru kita buat
+import Register from "./pages/auth/register"; 
 import Books from "./pages/public/books";
 import ShowBook from "./pages/public/books/show";
 
@@ -26,14 +26,19 @@ import AdminGenres from "./pages/admin/genres/AdminGenres";
 import GenreCreate from "./pages/admin/genres/GenreCreate";
 import AdminAuthors from "./pages/admin/authors/AdminAuthors";
 import AuthorCreate from "./pages/admin/authors/AuthorCreate";
+
+// ==========================================
+// 4. PROTECTED ROUTE IMPORT
+// ==========================================
 import ProtectedRoute from "./componens/ProtectedRoute";
+
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* ========================================== */}
-                {/* PUBLIC ROUTES (Akses Pengunjung & Auth)    */}
-                {/* ========================================== */}
+                {/* ========================================================= */}
+                {/* PUBLIC ROUTES (Akses Pengunjung, Pembeli & Guest Auth)   */}
+                {/* ========================================================= */}
                 <Route element={<PublicLayout />}>
                     {/* Halaman Utama */}
                     <Route index element={<Home />} />
@@ -49,10 +54,11 @@ function App() {
                     </Route>
                 </Route>
 
-                {/* ========================================== */}
-                {/* ADMIN ROUTES (Sekarang Terproteksi JWT)     */}
-                {/* ========================================== */}
-                <Route element={<ProtectedRoute />}>
+                {/* ========================================================= */}
+                {/* ADMIN ROUTES (Terproteksi JWT + Otorisasi Khusus Admin)    */}
+                {/* ========================================================= */}
+                {/* PERBAIKAN TUGAS: Mengunci akses hanya untuk role 'admin' */}
+                <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                     <Route path="admin" element={<AdminLayout />}>
                         <Route index element={<Dashboard />} />
 
