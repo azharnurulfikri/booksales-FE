@@ -1,91 +1,116 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
-  return (
-    // Padding top besar agar tidak tertutup navbar fixed, bg off-white untuk kesan premium
-    <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-32 overflow-hidden bg-[#fdfdfd] dark:bg-gray-900 font-sans">
-      
-      {/* Background Decoration (Soft Teal Glow) - Memberikan kedalaman visual */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
-        <div className="absolute top-10 right-10 w-96 h-96 bg-[#006d7e] rounded-full blur-[150px]"></div>
-      </div>
+    // Data dummy untuk jajaran buku imersif di sebelah kanan (Bisa diganti cover buku milikmu)
+    const featuredBooks = [
+        {
+            title: "The Psychology of Money",
+            cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+            rotate: "-rotate-12",
+            translate: "-translate-x-8",
+        },
+        {
+            title: "Atomic Habits",
+            cover: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=400",
+            rotate: "rotate-0",
+            translate:
+                "z-20 translate-y-4 scale-110 shadow-[0_25px_60px_rgba(0,0,0,0.8)]",
+        },
+        {
+            title: "Filosofi Teras",
+            cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400",
+            rotate: "rotate-12",
+            translate: "translate-x-8",
+        },
+    ];
 
-      <div className="container mx-auto px-4 lg:px-6 relative z-10">
-        <div className="flex flex-wrap items-center -mx-4">
-          
-          {/* KOLOM KIRI: Teks & CTA */}
-          <div className="w-full lg:w-1/2 px-4 mb-12 lg:mb-0">
-            <div className="max-w-xl">
-              <span className="inline-block py-1.5 px-4 mb-6 text-xs font-bold tracking-[0.2em] text-[#006d7e] uppercase bg-[#006d7e]/10 rounded-full">
-                Welcome to The Bookspot
-              </span>
-              
-              <h1 className="mb-8 text-5xl lg:text-7xl font-extrabold tracking-tight text-[#1a1a1a] dark:text-white leading-[1.1]">
-                Today a <span className="text-[#006d7e]">Reader</span>, <br /> 
-                Tomorrow a <span className="text-[#006d7e]">Leader</span>.
-              </h1>
-              
-              <p className="mb-10 text-lg lg:text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-lg">
-                Jelajahi dunia tanpa batas melalui lembaran cerita. Kami menghadirkan koleksi literatur pilihan untuk menginspirasi setiap langkah perjalananmu.
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                {/* Tombol Utama Teal */}
-                <Link 
-                  to="/books"
-                  className="px-10 py-4 text-white font-bold bg-[#006d7e] hover:bg-[#005a68] rounded-full transition duration-300 shadow-lg shadow-[#006d7e]/20 transform hover:-translate-y-1 text-center"
-                >
-                  Mulai Membaca
-                </Link>
-                {/* Tombol Outline */}
-                <button className="px-10 py-4 text-[#1a1a1a] dark:text-white font-bold border-2 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full transition duration-300 text-center">
-                  Lihat Katalog
-                </button>
-              </div>
-
-              
-              
+    return (
+        <section className="relative pt-28 pb-20 lg:pt-36 lg:pb-30 overflow-hidden bg-[#090d16] font-sans">
+            {/* Background Glow Premium (Disesuaikan agar lebih halus di belakang teks) */}
+            <div className="absolute top-0 left-1/4 w-full h-full opacity-10 pointer-events-none">
+                <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-indigo-500 rounded-full blur-[150px]"></div>
             </div>
-          </div>
 
-          {/* KOLOM KANAN: Visual Visual Person Reading (Sudah Dikecilkan) */}
-          <div className="w-full lg:w-1/2 px-4 flex justify-center lg:justify-end">
-            {/* max-w-sm di mobile dan max-w-md di desktop agar tidak kebesaran */}
-            <div className="relative w-full max-w-sm lg:max-w-md">
-              
-              {/* Efek Garis Dekoratif di Belakang Gambar */}
-              <div className="absolute -inset-4 border-2 border-[#006d7e]/20 rounded-[2.5rem] -z-10 translate-x-3 translate-y-3"></div>
+            <div className="container mx-auto px-4 lg:px-8 relative z-10">
+                <div className="flex flex-wrap items-center -mx-4">
+                    {/* KOLOM KIRI: Teks & CTA (Mengadopsi kebersihan tipografi UI Baru) */}
+                    <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
+                        <div className="max-w-xl">
+                            <span className="inline-block py-1.5 px-4 mb-6 text-xs font-bold tracking-[0.25em] text-indigo-300 uppercase bg-indigo-950/40 rounded-full border border-indigo-500/20">
+                                Welcome to BookSales
+                            </span>
 
-              {/* Container Gambar Utama */}
-              <div className="relative z-10 overflow-hidden rounded-[2.5rem] shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800" 
-                  alt="Reading Person" 
-                  className="w-full h-auto object-cover transform hover:scale-105 transition duration-700"
-                />
-              </div>
-              
-              {/* Floating Card Koleksi (Ukuran Proporsional) */}
-              <div className="absolute -bottom-6 -left-8 z-20 bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-50 dark:border-gray-700 hidden sm:block">
-                <div className="flex items-center gap-4">
-                  <div className="w-11 h-11 bg-[#006d7e] rounded-full flex items-center justify-center text-white shadow-inner">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9 4.804A7.993 7.993 0 002 12a7.993 7.993 0 007 7.196V4.804z"></path>
-                      <path fillRule="evenodd" d="M11 4.804V19.196A7.993 7.993 0 0018 12a7.993 7.993 0 00-7-7.196z" clipRule="evenodd"></path>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm font-black text-gray-900 dark:text-white leading-none">10k+ Koleksi</p>
-                    <p className="text-[10px] text-gray-400 mt-1 uppercase tracking-tighter">Buku Terkurasi</p>
-                  </div>
+                            {/* Judul dengan variasi ketebalan kontras tinggi ala intentional reading */}
+                            {/* Teks Judul Hero Section - Menggunakan Hadits Riwayat Ibnu Majah */}
+                            <h1 className="mb-8 text-4xl sm:text-5xl lg:text-7xl font-light tracking-tight text-gray-400 leading-[1.1]">
+                                Seeking knowledge <br />
+                                <span className="font-black text-white">
+                                    is a duty upon every{" "}
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+                                        individual.
+                                    </span>
+                                </span>
+                            </h1>
+
+                            
+                            <p className="mb-10 text-base lg:text-lg text-gray-400 leading-relaxed max-w-md font-normal">
+                                Jelajahi dunia tanpa batas melalui lembaran
+                                cerita. Kami menghadirkan koleksi literatur
+                                pilihan untuk menginspirasi setiap langkah
+                                perjalananmu.
+                            </p>
+
+                            <div className="flex flex-wrap items-center gap-5">
+                                {/* Tombol Utama - Capsule Melengkung Sempurna */}
+                                <Link
+                                    to="/books"
+                                    className="px-10 py-4 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 rounded-full transition-all duration-300 shadow-lg shadow-indigo-600/20 transform hover:-translate-y-0.5 text-center"
+                                >
+                                    Mulai Membaca
+                                </Link>
+
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* KOLOM KANAN: Immersive Showcase Jajaran Buku (Adaptasi UI Referensi) */}
+                    <div className="w-full lg:w-1/2 px-4 flex items-center justify-center relative">
+                        {/* Container Tumpukan Buku 3D dengan Efek Kedalaman */}
+                        <div className="relative flex items-center justify-center w-full max-w-lg h-[450px]">
+                            {featuredBooks.map((book, index) => (
+                                <div
+                                    key={index}
+                                    className={`absolute w-44 h-64 sm:w-52 sm:h-76 origin-bottom transition-all duration-500 ease-out transform hover:z-30 hover:scale-105 hover:rotate-0 ${book.translate} ${book.rotate}`}
+                                >
+                                    {/* Frame Buku Kompak */}
+                                    <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.6)] border border-gray-800/50 bg-gray-900">
+                                        <img
+                                            src={book.cover}
+                                            alt={book.title}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        {/* Efek kilauan cahaya pada cover buku */}
+                                        <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none"></div>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {/* Efek Kabut Transparan / Gradient Fade-out di Bagian Bawah Jajaran Buku */}
+                            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#090d16] via-[#090d16]/80 to-transparent z-25 pointer-events-none"></div>
+                        </div>
+
+                        {/* Floating Indicator Ornamen Penggaris Minimalis di bawah tumpukan buku */}
+                        <div className="absolute -bottom-6 flex flex-col items-center opacity-40 pointer-events-none hidden sm:flex">
+                            <div className="w-px h-6 bg-indigo-500 mb-1"></div>
+                            <span className="text-[10px] tracking-[0.3em] uppercase text-indigo-400 font-bold">
+                                Featured Catalog
+                            </span>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 }

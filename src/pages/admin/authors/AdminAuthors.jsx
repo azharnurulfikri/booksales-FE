@@ -85,73 +85,78 @@ export default function AdminAuthors() {
     };
 
     return (
-        <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 relative font-sans">
-            <div className="mx-auto max-w-screen-xl">
-                <div className="bg-white dark:bg-gray-800 relative shadow-sm sm:rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700">
+        // Mengubah background section luar menjadi transparan murni karena penampung utamanya sudah di-handle AdminLayout
+        <section className="p-0 relative font-sans">
+            <div className="mx-auto w-full">
+                {/* Tabel Kontainer: Dibersihkan dari warna bg-white kaku, berganti ke borderless transparan pekat */}
+                <div className="bg-transparent relative overflow-hidden">
                     
-                    {/* Header Admin */}
-                    <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-6 border-b border-gray-50 dark:border-gray-700">
-                        <div className="w-full md:w-1/2">
-                            <h2 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                                Management <span className="text-[#006d7e]">Authors</span>
+                    {/* Header Bagian Atas Panel */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0 pb-6 border-b border-gray-800/60">
+                        <div>
+                            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                                Management <span className="text-indigo-400">Authors</span>
                             </h2>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Kelola data penulis buku kamu di sini.</p>
+                            <p className="text-xs sm:text-sm text-gray-500 mt-1">Kelola data penulis buku kamu di sini.</p>
                         </div>
-                        <div className="w-full md:w-auto flex justify-end">
+                        <div className="w-full sm:w-auto flex justify-end">
+                            {/* Tombol Add Author bermutasi ke gaya Capsule Indigo Glowing */}
                             <Link
                                 to="/admin/authors/create"
-                                className="flex items-center justify-center text-white bg-[#006d7e] hover:bg-[#005a68] focus:ring-4 focus:ring-[#006d7e]/30 font-bold rounded-full text-sm px-6 py-2.5 transition-all duration-300 shadow-lg shadow-[#006d7e]/20"
+                                className="flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-500 font-bold rounded-full text-xs px-5 py-3 transition-all duration-300 shadow-lg shadow-indigo-600/10 transform active:scale-95"
                             >
-                                <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                                <svg className="h-4 w-4 mr-1.5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                                 </svg>
                                 Add Author
                             </Link>
                         </div>
                     </div>
 
-                    {/* Tabel Authors */}
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="text-xs text-gray-400 uppercase bg-gray-50/50 dark:bg-gray-700 dark:text-gray-400">
+                    {/* Rangka Struktur Tabel */}
+                    <div className="overflow-x-auto mt-4">
+                        <table className="w-full text-sm text-left text-gray-400">
+                            <thead className="text-xs text-gray-500 uppercase bg-gray-950/40 border-b border-gray-800/40">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4 font-bold">ID</th>
-                                    <th scope="col" className="px-6 py-4 font-bold">Author Name</th>
-                                    <th scope="col" className="px-6 py-4 text-right font-bold">Actions</th>
+                                    <th scope="col" className="px-6 py-4 font-bold tracking-wider">ID</th>
+                                    <th scope="col" className="px-6 py-4 font-bold tracking-wider">Author Name</th>
+                                    <th scope="col" className="px-6 py-4 text-right font-bold tracking-wider">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
+                            <tbody className="divide-y divide-gray-800/40">
                                 {isLoading ? (
                                     <tr>
-                                        <td colSpan="3" className="text-center py-20">
+                                        <td colSpan="3" className="text-center py-24">
                                             <div className="flex justify-center items-center">
-                                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006d7e]"></div>
+                                                <div className="animate-spin rounded-full h-7 w-7 border-2 border-indigo-500 border-t-transparent"></div>
                                             </div>
                                         </td>
                                     </tr>
                                 ) : authors.length > 0 ? (
                                     authors.map((author) => (
-                                        <tr key={author.id} className="hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
-                                            <td className="px-6 py-4 font-medium text-gray-400">#{author.id}</td>
-                                            <th scope="row" className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap dark:text-white">
+                                        <tr key={author.id} className="hover:bg-gray-900/30 transition-colors duration-200">
+                                            <td className="px-6 py-4.5 text-xs font-mono text-gray-600">#{author.id}</td>
+                                            <th scope="row" className="px-6 py-4.5 font-bold text-gray-200 whitespace-nowrap">
                                                 {author.name}
                                             </th>
-                                            <td className="px-6 py-4 flex justify-end gap-3">
+                                            <td className="px-6 py-4.5 flex justify-end gap-2">
+                                                {/* Tombol Aksi Edit */}
                                                 <button
                                                     onClick={() => openEditModal(author)}
-                                                    className="p-2 text-amber-500 hover:bg-amber-50 rounded-lg transition-colors"
+                                                    className="p-2 text-amber-400 bg-amber-500/5 border border-amber-500/10 hover:bg-amber-500/20 hover:border-amber-500/30 rounded-xl transition-all"
                                                     title="Edit Author"
                                                 >
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>
                                                 </button>
+                                                {/* Tombol Aksi Delete */}
                                                 <button
                                                     onClick={() => handleDelete(author.id)}
-                                                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                                    className="p-2 text-red-400 bg-red-500/5 border border-red-500/10 hover:bg-red-500/20 hover:border-red-500/30 rounded-xl transition-all"
                                                     title="Delete Author"
                                                 >
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
                                                 </button>
@@ -160,7 +165,9 @@ export default function AdminAuthors() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="3" className="text-center py-20 text-gray-400 italic">No authors found in the system.</td>
+                                        <td colSpan="3" className="text-center py-24 text-gray-500 text-xs tracking-wide">
+                                            No authors found in the database system.
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>
@@ -169,52 +176,62 @@ export default function AdminAuthors() {
                 </div>
             </div>
 
-            {/* MODAL EDIT POP-UP */}
+            {/* MODAL EDIT POP-UP (Injeksi Skema Glassmorphism Gelap) */}
             {isEditModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm" onClick={closeEditModal}></div>
-                    <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl w-full max-w-md p-8 relative z-10 border border-gray-100 dark:border-gray-700 animate-in fade-in zoom-in duration-300">
+                    {/* Lapisan Latar Belakang Buram Tembus Pandang */}
+                    <div className="absolute inset-0 bg-gray-950/60 backdrop-blur-sm" onClick={closeEditModal}></div>
+                    
+                    {/* Kontainer Utama Box Modal */}
+                    <div className="bg-gray-950/95 border border-gray-800/80 rounded-[2rem] shadow-[0_25px_60px_rgba(0,0,0,0.8)] w-full max-w-md p-8 relative z-10 animate-in fade-in zoom-in-95 duration-200 text-left">
                         <div className="text-center mb-8">
-                            <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                                Edit <span className="text-[#006d7e]">Author</span>
+                            <span className="text-indigo-400 font-bold tracking-[0.25em] text-[10px] uppercase mb-2 block">
+                                Modify Resource
+                            </span>
+                            <h3 className="text-2xl font-black text-white tracking-tight">
+                                Edit <span className="text-indigo-400">Author</span>
                             </h3>
-                            <p className="text-sm text-gray-500 mt-1">Perbarui informasi penulis di bawah ini.</p>
+                            <div className="w-6 h-0.5 bg-indigo-500 mx-auto mt-2.5 rounded-full"></div>
                         </div>
                         
                         <form onSubmit={handleUpdateSubmit} className="space-y-5">
+                            {/* Input Nama Penulis */}
                             <div>
-                                <label className="block mb-2 text-xs font-bold uppercase tracking-widest text-gray-400">Author Name</label>
+                                <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-gray-400">Author Name</label>
                                 <input
                                     type="text"
                                     value={currentAuthor.name}
                                     onChange={(e) => setCurrentAuthor({ ...currentAuthor, name: e.target.value })}
-                                    className="bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl block w-full p-3 focus:ring-2 focus:ring-[#006d7e] focus:border-transparent outline-none transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className="w-full px-4 py-2.5 text-sm text-white bg-gray-900/50 border border-gray-800 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 focus:outline-none transition-all duration-300 placeholder-gray-700"
                                     placeholder="Masukkan nama penulis..."
                                     required
                                 />
                             </div>
+                            {/* Input Biografi Deskripsi */}
                             <div>
-                                <label className="block mb-2 text-xs font-bold uppercase tracking-widest text-gray-400">Bio / Description</label>
+                                <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-gray-400">Bio / Description</label>
                                 <textarea
                                     value={currentAuthor.bio}
                                     onChange={(e) => setCurrentAuthor({ ...currentAuthor, bio: e.target.value })}
-                                    className="bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-xl block w-full p-3 focus:ring-2 focus:ring-[#006d7e] focus:border-transparent outline-none transition-all dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className="w-full px-4 py-2.5 text-sm text-white bg-gray-900/50 border border-gray-800 rounded-xl focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 focus:outline-none transition-all duration-300 placeholder-gray-700 resize-none"
                                     rows="4"
                                     placeholder="Tulis biografi singkat..."
                                     required
                                 />
                             </div>
-                            <div className="flex gap-3 pt-4">
+                            
+                            {/* Tombol Batalkan & Konfirmasi Aksi */}
+                            <div className="flex gap-3 pt-3">
                                 <button
                                     type="button"
                                     onClick={closeEditModal}
-                                    className="w-full text-gray-500 bg-gray-100 hover:bg-gray-200 font-bold rounded-full text-sm px-5 py-3 transition-colors"
+                                    className="w-full h-[44px] text-gray-400 bg-gray-900/40 border border-gray-800/80 hover:text-white rounded-full text-xs font-bold transition-all flex items-center justify-center"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
-                                    className="w-full text-white bg-[#006d7e] hover:bg-[#005a68] font-bold rounded-full text-sm px-5 py-3 shadow-lg shadow-[#006d7e]/20 transition-all transform active:scale-95"
+                                    className="w-full h-[44px] text-white bg-indigo-600 hover:bg-indigo-500 font-bold rounded-full text-xs shadow-lg shadow-indigo-600/10 transition-all transform active:scale-95 flex items-center justify-center"
                                 >
                                     Save Changes
                                 </button>

@@ -7,7 +7,7 @@ export default function BookCreate() {
     const [genres, setGenres] = useState([]);
     const [authors, setAuthors] = useState([]);
     
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({  //menyimpan input form
         title: "",
         price: 0,
         stock: 0,
@@ -19,10 +19,10 @@ export default function BookCreate() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
+    useEffect(() => {  //mengambil data genre dan author dari backend API saat halaman pertama kali dibuka.
         const fetchData = async () => {
             try {
-                const [genresData, authorsData] = await Promise.all([
+                const [genresData, authorsData] = await Promise.all([ //supaya request genre dan author berjalan bersamaan agar lebih cepat.
                     getGenres(),
                     getAuthors(),
                 ]);
@@ -43,7 +43,7 @@ export default function BookCreate() {
         fetchData();
     }, []);
 
-    const handleChange = (e) => {
+    const handleChange = (e) => {     //menangani perubahan input form.
         const { name, value, files } = e.target;
 
         if (name === "cover_photo") {

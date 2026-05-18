@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; // Tambahkan useEffect di sini
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getGenres, showBook, updateBook } from "../../../_services/books";
 import { getAuthors } from "../../../_services/authors";
@@ -9,6 +9,10 @@ export default function BookEdit() {
 
     const [genres, setGenres] = useState([]);
     const [authors, setAuthors] = useState([]);
+    
+    // State tambahan untuk menyimpan URL cover lama dari backend buat dipake di preview
+    const [oldCoverUrl, setOldCoverUrl] = useState(""); 
+
     const [formData, setFormData] = useState({
         title: "",
         price: 0,
@@ -16,7 +20,7 @@ export default function BookEdit() {
         genre_id: "",
         author_id: "",
         cover_photo: null,
-        description: "",
+        description: "", // deskripsi ada di sini
     });
 
     useEffect(() => {
@@ -30,13 +34,20 @@ export default function BookEdit() {
 
                 setGenres(genresData);
                 setAuthors(authorsData);
+                
+                // Simpan URL cover lama ke state preview jika ada dari backend
+                if (bookData.cover_photo) {
+                    setOldCoverUrl(bookData.cover_photo); 
+                }
+
                 setFormData({
                     title: bookData.title,
                     price: bookData.price,
                     stock: bookData.stock,
                     genre_id: bookData.genre_id,
                     author_id: bookData.author_id,
-                    cover_photo: bookData.cover_photo, 
+                    cover_photo: null, // Biarkan null dulu karena input file tidak bisa diisi string URL
+                    description: bookData.description || "", // FIX: Masukkan data deskripsi ke sini!
                 });
             } catch (error) {
                 console.error("Gagal mengambil data:", error);
@@ -46,25 +57,21 @@ export default function BookEdit() {
         fetchData();
     }, [id]);
 
-    // 1. Fungsi untuk menangani perubahan input form
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         setFormData({
             ...formData,
-            // Jika input adalah file, ambil file pertama. Jika bukan, ambil valuenya.
             [name]: type === "file" ? files[0] : value,
         });
     };
 
-    // 2. Fungsi untuk menangani submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Logika untuk mengirim data (update) ke API/Backend ditaruh di sini
         try {
             const payload = new FormData();
 
-            // Looping buat masukin semua state formData ke dalam objek FormData
             for (const key in formData) {
+                // Kalau cover_photo kosong (user gak ganti gambar), jangan di-append ke FormData
                 if (key === "cover_photo" && !(formData[key] instanceof File)) {
                     continue;
                 }
@@ -72,28 +79,13 @@ export default function BookEdit() {
             }
             
             payload.append('_method', 'PUT');
-            // Panggil API updateBook
             await updateBook(id, payload);
 
-            // Kalau sukses, lempar balik ke halaman daftar buku
             navigate("/admin/books");
         } catch (error) {
             console.log(error);
             alert("Error updating book");
         }
-    };
-
-    // 3. Fungsi untuk mereset form
-    const handleReset = () => {
-        setFormData({
-            title: "",
-            price: 0,
-            stock: 0,
-            genre_id: "",
-            author_id: "",
-            cover_photo: null,
-            description: "",
-        });
     };
 
     return (
@@ -106,10 +98,7 @@ export default function BookEdit() {
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
                         <div className="sm:col-span-2">
-                            <label
-                                htmlFor="title"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Title
                             </label>
                             <input
@@ -124,10 +113,7 @@ export default function BookEdit() {
                             />
                         </div>
                         <div className="w-full">
-                            <label
-                                htmlFor="stock"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="stock" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Stok book
                             </label>
                             <input
@@ -142,10 +128,7 @@ export default function BookEdit() {
                             />
                         </div>
                         <div className="w-full">
-                            <label
-                                htmlFor="price"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Price
                             </label>
                             <input
@@ -162,10 +145,7 @@ export default function BookEdit() {
 
                         {/* Dropdown Genre */}
                         <div className="w-full">
-                            <label
-                                htmlFor="genre_id"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="genre_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Genre
                             </label>
                             <select
@@ -176,23 +156,16 @@ export default function BookEdit() {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                                 required
                             >
-                                <option value="" disabled>
-                                    ---Select Genres---
-                                </option>
+                                <option value="" disabled>---Select Genres---</option>
                                 {genres?.map((genre) => (
-                                    <option key={genre.id} value={genre.id}>
-                                        {genre.name}
-                                    </option>
+                                    <option key={genre.id} value={genre.id}>{genre.name}</option>
                                 ))}
                             </select>
                         </div>
 
                         {/* Dropdown Author */}
                         <div className="w-full">
-                            <label
-                                htmlFor="author_id"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="author_id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Author
                             </label>
                             <select
@@ -203,24 +176,31 @@ export default function BookEdit() {
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
                                 required
                             >
-                                <option value="" disabled>
-                                    ---Select Authors---
-                                </option>
+                                <option value="" disabled>---Select Authors---</option>
                                 {authors?.map((author) => (
-                                    <option key={author.id} value={author.id}>
-                                        {author.name}
-                                    </option>
+                                    <option key={author.id} value={author.id}>{author.name}</option>
                                 ))}
                             </select>
                         </div>
 
+                        {/* Input Cover Photo dengan Preview */}
                         <div className="sm:col-span-2">
-                            <label
-                                htmlFor="cover_photo"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="cover_photo" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Cover Photo
                             </label>
+
+                            {/* TAMPILKAN PREVIEW GAMBAR LAMA DI SINI */}
+                            {oldCoverUrl && !formData.cover_photo && (
+                                <div className="mb-3">
+                                    <p className="text-xs text-gray-500 mb-1">Current Cover:</p>
+                                    <img 
+                                        src={oldCoverUrl} 
+                                        alt="Current Book Cover" 
+                                        className="w-32 h-auto rounded-lg border border-gray-300 dark:border-gray-600 object-cover"
+                                    />
+                                </div>
+                            )}
+
                             <input
                                 type="file"
                                 name="cover_photo"
@@ -231,17 +211,15 @@ export default function BookEdit() {
                             />
                         </div>
 
+                        {/* Textarea Description */}
                         <div className="sm:col-span-2">
-                            <label
-                                htmlFor="description"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                            >
+                            <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Description
                             </label>
                             <textarea
                                 id="description"
                                 name="description"
-                                value={formData.description}
+                                value={formData.description} // data binding berjalan karena nilainya diset di useEffect
                                 onChange={handleChange}
                                 rows="6"
                                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"

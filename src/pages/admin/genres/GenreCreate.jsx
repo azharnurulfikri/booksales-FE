@@ -4,14 +4,12 @@ import { createGenre } from "../../../_services/books";
 
 export default function GenreCreate() {
     const [name, setName] = useState("");
-    // 1. Tambahin state buat description
     const [description, setDescription] = useState(""); 
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // 2. Masukin description ke payload
             const payload = { 
                 name: name,
                 description: description 
@@ -21,13 +19,13 @@ export default function GenreCreate() {
             navigate("/admin/genres"); 
         } catch (error) {
             console.error("Error creating genre:", error);
-            alert("Failed to create genre.");
+            alert("Failed to create genre. Pastikan form terisi semua.");
         }
     };
 
     const handleReset = () => {
         setName("");
-        setDescription(""); // 3. Reset juga description-nya
+        setDescription(""); 
     };
 
     return (
@@ -38,6 +36,8 @@ export default function GenreCreate() {
                 </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                        
+                        {/* Input Nama Genre */}
                         <div className="sm:col-span-2">
                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Genre Name
@@ -49,11 +49,12 @@ export default function GenreCreate() {
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-indigo-500 dark:focus:border-indigo-500"
+                                placeholder="e.g., Sci-Fi, Psychological Thriller..."
                                 required
                             />
                         </div>
                         
-                        {/* 4. Tambahin kotak input buat Deskripsi */}
+                        {/* Input Deskripsi */}
                         <div className="sm:col-span-2">
                             <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Description

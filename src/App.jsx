@@ -11,9 +11,12 @@ import AdminLayout from "./layouts/admin";
 // ==========================================
 import Home from "./pages/index";
 import Login from "./pages/auth/login";
-import Register from "./pages/auth/register"; 
+import Register from "./pages/auth/register";
 import Books from "./pages/public/books";
 import ShowBook from "./pages/public/books/show";
+import About from "./pages/public/about";
+import Contact from "./pages/public/contact";
+import Cart from "./pages/public/Cart";
 
 // ==========================================
 // 3. ADMIN PAGE IMPORTS
@@ -26,11 +29,13 @@ import AdminGenres from "./pages/admin/genres/AdminGenres";
 import GenreCreate from "./pages/admin/genres/GenreCreate";
 import AdminAuthors from "./pages/admin/authors/AdminAuthors";
 import AuthorCreate from "./pages/admin/authors/AuthorCreate";
-
+import AdminContacts from "./pages/admin/contacts/contact";
+import UserList from "./pages/admin/users";
 // ==========================================
 // 4. PROTECTED ROUTE IMPORT
 // ==========================================
 import ProtectedRoute from "./componens/ProtectedRoute";
+import AdminTransactions from "./pages/admin/transactions";
 
 function App() {
     return (
@@ -52,14 +57,21 @@ function App() {
                         <Route index element={<Books />} />
                         <Route path="show/:id" element={<ShowBook />} />
                     </Route>
-                </Route>
 
+                    <Route path="about" element={<About />} />
+
+                    {/* Halaman Contact */}
+                    <Route path="contact" element={<Contact />} />
+                    
+                    {/* halaman cart */}
+                    <Route path="/cart" element={<Cart />} />
+                </Route>
                 {/* ========================================================= */}
-                {/* ADMIN ROUTES (Terproteksi JWT + Otorisasi Khusus Admin)    */}
+                {/* ADMIN ROUTES (Terproteksi JWT + Otorisasi Khusus Admin)   */}
                 {/* ========================================================= */}
-                {/* PERBAIKAN TUGAS: Mengunci akses hanya untuk role 'admin' */}
                 <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
                     <Route path="admin" element={<AdminLayout />}>
+                        {/* Halaman Dashboard Admin */}
                         <Route index element={<Dashboard />} />
 
                         {/* Modul Buku */}
@@ -80,6 +92,15 @@ function App() {
                             <Route index element={<AdminAuthors />} />
                             <Route path="create" element={<AuthorCreate />} />
                         </Route>
+
+                        {/* contact */}
+                        <Route path="contacts" element={<AdminContacts />} />
+
+                        {/* daftar user */}
+                        <Route path="users" element={<UserList />} />
+
+                        {/* admin transaksi */}
+                        <Route path="transactions" element={<AdminTransactions />} />
                     </Route>
                 </Route>
             </Routes>
